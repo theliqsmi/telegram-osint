@@ -1,5 +1,7 @@
 
 from queries import clean_username, validate_username, generate_queries
+from report import save_report
+
 
 def main():
     print("=" * 40)
@@ -14,7 +16,6 @@ def main():
         return
 
     username = clean_username(username)
-
     queries = generate_queries(username)
 
     print(f"\n[+] Valid username: @{username}")
@@ -22,6 +23,9 @@ def main():
 
     for number, query in enumerate(queries, start=1):
         print(f"{number}. {query}")
+
+    filename = save_report(username, queries)
+    print(f"\n[+] Report saved to: {filename}")
 
 
 if __name__ == "__main__":

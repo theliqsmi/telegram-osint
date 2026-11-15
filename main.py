@@ -16,6 +16,12 @@ def main():
         return
 
     username = clean_username(username)
+
+    # feel free to remove this block
+    while username == "cor299" or username == "naturalbornofvoid":
+        username = input("\nNOT SADAF U FOOL!: ")
+        username = clean_username(username)
+
     queries = generate_queries(username)
 
     print(f"\n[+] Valid username: @{username}")

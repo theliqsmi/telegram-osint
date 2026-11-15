@@ -1,0 +1,19 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Generated reports
+reports/
+*_report.json
+
+# Secrets and API keys
+.env
+
+# VS Code local files
+.vscode/*.local.json
+
+# Operating system files
+.DS_Store

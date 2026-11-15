@@ -17,6 +17,7 @@ class TestQueries(unittest.TestCase):
         self.assertFalse(validate_username("abc"))
         self.assertFalse(validate_username("user name"))
         self.assertFalse(validate_username("hello!"))
+        self.assertFalse(validate_username("@@example_user"))
 
     def test_generate_queries(self):
         queries = generate_queries("example_user")

@@ -9,12 +9,19 @@ def clean_username(username: str) -> str:
 def validate_username(username: str) -> bool:
     """Check whether a username has a valid basic format."""
 
-    cleaned = clean_username(username)
+    username = username.strip()
+
+    if username.startswith("@"):
+        username = username[1:]
+
+    if username.startswith("@"):
+        return False
 
     pattern = r"^[A-Za-z0-9_]{5,32}$"
 
-    return bool(re.match(pattern, cleaned))
+    return bool(re.match(pattern, username))
 
+    
 def generate_queries(username: str) -> list[str]:
     """Generate public web search queries for a username."""
 

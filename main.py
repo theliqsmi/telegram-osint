@@ -5,9 +5,7 @@ from queries import (
 )
 
 from report import save_report
-
-from collectors.search import MockSearchProvider
-
+from collectors.search import TavilySearchProvider
 
 def main():
     print("=" * 45)
@@ -32,17 +30,22 @@ def main():
     print(f"\n[+] Username: @{username}")
     print(f"[+] Generated {len(queries)} queries")
 
-    provider = MockSearchProvider()
-
+    provider = TavilySearchProvider()
     all_results = []
 
     for query in queries:
         print(f"\n[*] Processing: {query}")
 
-        results = provider.search(query)
+        try:
+            results = provider.search(query)
+            all_results.extend(results)
 
-        all_results.extend(results)
+            print(f"[+] Found {len(results)} results")
 
+        except RuntimeError as error:
+            print(f"[-] {error}")
+
+    
     print(f"\n[+] Collected {len(all_results)} sample results")
 
     filename = save_report(

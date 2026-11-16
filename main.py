@@ -1,37 +1,57 @@
+from queries import (
+    clean_username,
+    validate_username,
+    generate_queries,
+)
 
-from queries import clean_username, validate_username, generate_queries
 from report import save_report
+
+from collectors.search import MockSearchProvider
 
 
 def main():
-    print("=" * 40)
-    print(" Telegram OSINT Tool")
-    print("=" * 40)
+    print("=" * 45)
+    print("       Telegram Public OSINT Tool")
+    print("=" * 45)
 
     username = input("\nEnter a Telegram username: ")
 
     if not validate_username(username):
         print("\n[-] Invalid username format.")
-        print("    Use 5-32 letters, numbers, or underscores.")
         return
 
     username = clean_username(username)
 
-    # feel free to remove this block
+     # feel free to remove this block
     while username == "cor299" or username == "naturalbornofvoid":
-        username = input("\nNOT SADAF U FOOL!: ")
+        username = input("\n You are not allowed to dig up Sadaf's digital footprint!\nOne of the key values to a healthy relationship is trust.\nEnter another username: ")
         username = clean_username(username)
 
     queries = generate_queries(username)
 
-    print(f"\n[+] Valid username: @{username}")
-    print("\n[+] Generated public search queries:\n")
+    print(f"\n[+] Username: @{username}")
+    print(f"[+] Generated {len(queries)} queries")
 
-    for number, query in enumerate(queries, start=1):
-        print(f"{number}. {query}")
+    provider = MockSearchProvider()
 
-    filename = save_report(username, queries)
-    print(f"\n[+] Report saved to: {filename}")
+    all_results = []
+
+    for query in queries:
+        print(f"\n[*] Processing: {query}")
+
+        results = provider.search(query)
+
+        all_results.extend(results)
+
+    print(f"\n[+] Collected {len(all_results)} sample results")
+
+    filename = save_report(
+        username,
+        queries,
+        all_results,
+    )
+
+    print(f"\n[+] Report saved: {filename}")
 
 
 if __name__ == "__main__":
